@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const isEmail = require("validator/lib/isEmail");
-const isURL = require('validator/lib/isURL');
+const isURL = require("validator/lib/isURL");
+const Unauthorized = require("../errors/unauthorized");
+const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -31,17 +33,33 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => isEmail(v),
-      message: "Неверно указана почта."
+      message: "Неверно указана почта.",
     },
   },
   password: {
     type: String,
     required: true,
     validate: {
-      validator: (v) => v.length>7,
-      message: "Минимальная длинна пароля 8 симолов."
+      validator: (v) => v.length > 7,
+      message: "Минимальная длинна пароля 8 симолов.",
     },
   },
 });
+
+userSchema.static.findUserByCredentials = function (email, password) {
+  return this.findOne({ email })
+    .then(user => {
+      if (!user) {
+        return Promise.reject(new Unauthorized("Неправильные почта или пароль"));
+      }
+      return bcrypt.compare(password, user.password)
+        .then(matched => {
+          if (!matched) {
+            return Promise.reject(new Unauthorized("Неправильные почта или пароль"));
+          }
+          return user;
+        });
+    });
+};
 
 module.exports = mongoose.model("user", userSchema);

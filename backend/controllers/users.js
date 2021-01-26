@@ -1,6 +1,20 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 const NotFoundErr = require("../errors/not-found-err");
+const jwt = require("jsonwebtoken");
+
+const login = (req, res, next) => {
+  const { email, password } = req.body;
+  User.findUserByCredentials(email, password)
+    .then(user => {
+      const token = jwt.sign({ _id: user._id }, "some-secret-key", { expiresIn: "7d" });
+      res.cookie("jwt", token, {
+        maxAge: 3600000 * 24 * 7,
+        httpOnly: true,
+      });
+    })
+    .catch(next);
+};
 
 const getUsers = (req, res, next) => {
   User.find({})
@@ -76,6 +90,7 @@ const updateUserAvatar = (req, res, next) => {
     .catch(next);
 };
 module.exports = {
+  login,
   getUsers,
   getUser,
   createUser,
