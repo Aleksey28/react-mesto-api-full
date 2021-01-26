@@ -35,6 +35,17 @@ const getUser = (req, res, next) => {
     .catch(next);
 };
 
+const getUserInfo = (req, res, next) => {
+  User.findById(req.user._id)
+    .then((data) => {
+      if (!data) {
+        throw new NotFoundErr("Нет пользователя с таким id");
+      }
+      res.send(data);
+    })
+    .catch(next);
+};
+
 const createUser = (req, res, next) => {
   const { name, about, avatar, email, password } = req.body;
   bcrypt.hash(password, 10)
@@ -93,6 +104,7 @@ module.exports = {
   login,
   getUsers,
   getUser,
+  getUserInfo,
   createUser,
   updateUserInfo,
   updateUserAvatar,
