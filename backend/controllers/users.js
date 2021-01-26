@@ -1,5 +1,6 @@
-const User = require('../models/user');
-const NotFoundErr = require('../errors/not-found-err');
+const bcrypt = require("bcryptjs");
+const User = require("../models/user");
+const NotFoundErr = require("../errors/not-found-err");
 
 const getUsers = (req, res, next) => {
   User.find({})
@@ -13,7 +14,7 @@ const getUser = (req, res, next) => {
   User.findById(req.params.id)
     .then((data) => {
       if (!data) {
-        throw new NotFoundErr('Нет пользователя с таким id');
+        throw new NotFoundErr("Нет пользователя с таким id");
       }
       res.send(data);
     })
@@ -21,15 +22,16 @@ const getUser = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const { name, about, avatar } = req.body;
-  User.create({
-    name,
-    about,
-    avatar,
-  })
-    .then((data) => {
-      res.send(data);
-    })
+  const { name, about, avatar, email, password } = req.body;
+  bcrypt.hash(password, 10)
+    .then(hash => User.create({
+      name,
+      about,
+      avatar,
+      email,
+      password: hash,
+    }))
+    .then(res.send)
     .catch(next);
 };
 
@@ -45,10 +47,10 @@ const updateUserInfo = (req, res, next) => {
       new: true, // обработчик then получит на вход обновлённую запись
       runValidators: true, // данные будут валидированы перед изменением
     },
-  )
+    )
     .then((data) => {
       if (!data) {
-        throw new NotFoundErr('Нет пользователя с таким id');
+        throw new NotFoundErr("Нет пользователя с таким id");
       }
       res.send(data);
     })
@@ -64,10 +66,10 @@ const updateUserAvatar = (req, res, next) => {
       new: true, // обработчик then получит на вход обновлённую запись
       runValidators: true, // данные будут валидированы перед изменением
     },
-  )
+    )
     .then((data) => {
       if (!data) {
-        throw new NotFoundErr('Нет пользователя с таким id');
+        throw new NotFoundErr("Нет пользователя с таким id");
       }
       res.send(data);
     })
