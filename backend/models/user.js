@@ -5,23 +5,26 @@ const isURL = require('validator/lib/isURL');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
+    default: "Жак-Ив Кусто",
+    required: false,
     minLength: 2,
     maxLength: 30,
-    required: true,
   },
   about: {
     type: String,
+    default: "Исследователь",
+    required: false,
     minLength: 2,
     maxLength: 30,
-    required: true,
   },
   avatar: {
     type: String,
+    default: "https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png",
+    required: false,
     validate: {
       validator: (v) => isURL(v),
       message: "Не верно указан адрес.",
     },
-    required: true,
   },
   email: {
     type: String,
