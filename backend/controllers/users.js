@@ -5,13 +5,14 @@ const jwt = require("jsonwebtoken");
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
-  User.findUserByCredentials(email, password)
-    .then(user => {
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
       const token = jwt.sign({ _id: user._id }, "some-secret-key", { expiresIn: "7d" });
-      res.cookie("jwt", token, {
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-      });
+      res.send({ token });
+      // res.cookie("jwt", token, {
+      //   maxAge: 3600000 * 24 * 7,
+      //   httpOnly: true,
+      // });
     })
     .catch(next);
 };
@@ -56,7 +57,7 @@ const createUser = (req, res, next) => {
       email,
       password: hash,
     }))
-    .then(res.send)
+    .then((hash) => res.send(hash))
     .catch(next);
 };
 
