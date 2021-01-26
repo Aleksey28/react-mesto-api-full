@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser  = require('cookie-parser');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cards = require('./routes/cards');
@@ -17,6 +18,8 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 app.use(bodyParser.json());
+app.use(cookieParser());
+
 app.use((req, res, next) => {
   req.user = {
     _id: '5fd3f4da730a4b61f8e0152c', // вставьте сюда _id созданного в предыдущем пункте пользователя
