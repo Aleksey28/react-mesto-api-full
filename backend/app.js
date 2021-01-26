@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cards = require('./routes/cards');
 const users = require('./routes/users');
+const { createUser } = require("./controllers/users");
+const { login } = require("./controllers/users");
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
@@ -23,6 +25,9 @@ app.use((req, res, next) => {
 });
 
 app.use(requestLogger);
+
+app.post('/signin', login);
+app.post('/signup', createUser);
 
 app.use('/', cards);
 app.use('/', users);
