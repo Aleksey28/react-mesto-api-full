@@ -1,0 +1,23 @@
+.header__nlink {
+  font-family: 'Inter', 'Arial', 'Helvetica', sans-serif;
+  font-size: 18px;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 22px;
+  margin-top: 7px;
+  transition: opacity .2s ease-in;
+  text-align: right;
+  text-decoration: none;
+  color: #fff;
+}
+
+.header__nlink:hover {
+  opacity: .6;
+}
+
+@media screen and (max-width: 600px) {
+  .header__nlink {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}

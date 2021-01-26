@@ -1,0 +1,44 @@
+@import url(./__logo/header__logo.css);
+@import url(__navbar/header__navbar.css);
+@import url(__navbar/_vertical/header__navbar_vertical.css);
+@import url(__navbar/_hidden/header__navbar_hidden.css);
+@import url(./__nlink/header__nlink.css);
+@import url(./__email/header__email.css);
+@import url(./__btn/header__btn.css);
+@import url(__btn/_action/header__btn_action_close.css);
+@import url(__btn/_action/header__btn_action_open.css);
+@import url(__btn/_type/header__btn_type_switch.css);
+@import url(__btn/_type/header__btn_type_exit.css);
+
+.header {
+  display: grid;
+  align-items: center;
+  box-sizing: border-box;
+  width: calc(100% - 199px * 2);
+  min-width: calc(1024px - 100px * 2);
+  max-width: calc(1280px - 199px * 2);
+  border-bottom: 1px solid rgba(84, 84, 84, .7);
+  grid-template-areas: 'logo navbar';
+  grid-template-rows: 119px;
+}
+
+@media screen and (max-width: 1024px) {
+  .header {
+    width: calc(100% - 100px * 2);
+    min-width: 768px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    width: 100%;
+    min-width: 300px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .header {
+    grid-template-rows: 83px;
+  }
+}
+
