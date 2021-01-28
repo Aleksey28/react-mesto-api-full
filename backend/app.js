@@ -27,9 +27,9 @@ app.use(cookieParser());
 
 app.use(requestLogger);
 
-app.get('/crash-test', () => {
+app.get("/crash-test", () => {
   setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
+    throw new Error("Сервер сейчас упадёт");
   }, 0);
 });
 
@@ -65,7 +65,7 @@ app.use((err, req, res, next) => {
     .send({
       // проверяем статус и выставляем сообщение в зависимости от него
       message: statusCode === 500
-               ? "Server was broken =("
+               ? "На сервере произошла ошибка =("
                : message,
     });
   next();

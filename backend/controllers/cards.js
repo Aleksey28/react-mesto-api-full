@@ -6,7 +6,7 @@ const NotFoundErr = require("../errors/not-found-err");
 const getCards = (req, res, next) => {
   Card.find({})
     .populate(["owner", "likes"])
-    .sort('-createdAt')
+    .sort("-createdAt")
     .then((data) => {
       res.send(data);
     })
@@ -33,14 +33,15 @@ const createCard = (req, res, next) => {
 };
 
 const deleteCard = (req, res, next) => {
+
   Card.findOneAndDelete({
     _id: req.params.cardId,
     owner: req.user._id,
   }).populate("owner")
+    .orFail(() => {
+      throw new NotFoundErr("Нет карточки с таким id");
+    })
     .then((data) => {
-      if (!data) {
-        throw new NotFoundErr("Нет карточки с таким id");
-      }
       res.send(data);
     })
     .catch(next);
@@ -53,10 +54,10 @@ const likeCard = (req, res, next) => {
     { new: true },
     )
     .populate(["owner", "likes"])
+    .orFail(() => {
+      throw new NotFoundErr("Нет карточки с таким id");
+    })
     .then((data) => {
-      if (!data) {
-        throw new NotFoundErr("Нет карточки с таким id");
-      }
       res.send(data);
     })
     .catch(next);
@@ -69,10 +70,10 @@ const dislikeCard = (req, res, next) => {
     { new: true },
     )
     .populate(["owner", "likes"])
+    .orFail(() => {
+      throw new NotFoundErr("Нет карточки с таким id");
+    })
     .then((data) => {
-      if (!data) {
-        throw new NotFoundErr("Нет карточки с таким id");
-      }
       res.send(data);
     })
     .catch(next);
