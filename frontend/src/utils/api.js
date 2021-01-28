@@ -1,16 +1,15 @@
 import { apiSettings } from "./constants.js";
 
 class Api {
-  constructor({ baseUrl, baseUrlAuth, headers }) {
+  constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
-    this._baseUrlAuth = baseUrlAuth;
     this._headers = headers;
   }
 
   _getProxy(relativePath, method, body = "") {
     const options = {
       method,
-      headers: this._headers,
+      headers: { ...this._headers, Authorization: `Bearer ${localStorage.getItem("jwt")}` },
     };
 
     if (!!body) {

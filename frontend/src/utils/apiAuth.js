@@ -1,8 +1,8 @@
-import { apiSettingsAuth } from "./constants.js";
+import { apiSettings } from "./constants.js";
 
 class Api {
-  constructor({ baseUrlAuth, headers }) {
-    this._baseUrl = baseUrlAuth;
+  constructor({ baseUrl, headers }) {
+    this._baseUrl = baseUrl;
     this._headers = headers;
   }
 
@@ -67,4 +67,4 @@ class Api {
   }
 }
 
-export const apiAuthObject = new Api(apiSettingsAuth);
+export const apiAuthObject = new Api(apiSettings);

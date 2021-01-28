@@ -50,15 +50,7 @@ export const propsAuthRegister = {
 };
 
 export const apiSettings = {
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-16",
-  headers: {
-    authorization: "fcd9a632-5cad-436c-b58e-4c80d498006a",
-    "Content-Type": "application/json",
-  },
-};
-
-export const apiSettingsAuth = {
-  baseUrlAuth: "https://auth.nomoreparties.co",
+  baseUrl: "http://localhost:3000",
   headers: {
     "Content-Type": "application/json",
   },

@@ -64,7 +64,7 @@ function App() {
       // здесь будем проверять токен
       apiAuthObject
         .tokenCheck({ jwt })
-        .then(({ data }) => {
+        .then((data) => {
           setLoggedIn(true);
           setCurrentUserEmail(data.email);
         })
