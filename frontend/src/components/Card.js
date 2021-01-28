@@ -16,7 +16,7 @@ export default function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const handleClickDelete = () => {
     onCardDelete(card);
   };
-
+  
   return (
     <li className="card">
       {currentUser._id === card.owner._id && (
