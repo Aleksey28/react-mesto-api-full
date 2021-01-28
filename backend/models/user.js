@@ -40,10 +40,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     select: false,
-    validate: {
-      validator: (v) => v.length > 7,
-      message: "Минимальная длинна пароля 8 симолов.",
-    },
+    minLength: 8,
   },
 });
 

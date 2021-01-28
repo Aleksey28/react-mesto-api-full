@@ -1,19 +1,27 @@
-const router = require('express').Router();
+const router = require("express").Router();
+const { celebrate, Joi } = require("celebrate");
+
 const {
   getUsers,
   getUser,
   getUserInfo,
-  createUser,
   updateUserInfo,
   updateUserAvatar,
-} = require('../controllers/users');
+} = require("../controllers/users");
 
-// TODO add validation for routes
-router.get('/users', getUsers);
-router.get('/users/me', getUserInfo);
-router.get('/users/:id', getUser);
-router.post('/users', createUser);
-router.patch('/users/me', updateUserInfo);
-router.patch('/users/me/avatar', updateUserAvatar);
+router.get("/users", getUsers);
+router.get("/users/me", getUserInfo);
+router.get("/users/:id", getUser);
+router.patch("/users/me", celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().required().min(2).max(30),
+    about: Joi.string().required().min(2).max(30),
+  }).unknown(true),
+}), updateUserInfo);
+router.patch("/users/me/avatar", celebrate({
+  body: Joi.object().keys({
+    avatar: Joi.string().required().uri(),
+  }).unknown(true),
+}), updateUserAvatar);
 
 module.exports = router;
