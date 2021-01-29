@@ -50,8 +50,8 @@ export const propsAuthRegister = {
 };
 
 export const apiSettings = {
-  baseUrl: "http://localhost:3000",
-  // baseUrl: "https://express.mesto.aleksey.students.nomoredomains.monster",
+  // baseUrl: "http://localhost:3000",
+  baseUrl: "https://express.mesto.aleksey.students.nomoredomains.monster",
   headers: {
     "Content-Type": "application/json",
   },
