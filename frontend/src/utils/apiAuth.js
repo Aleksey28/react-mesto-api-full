@@ -9,6 +9,7 @@ class Api {
   _getProxy({ relativePath, method, body = "", headers = {} }) {
     const options = {
       method,
+      credentials: "include",
       headers: { ...this._headers, ...headers },
     };
 
@@ -34,13 +35,10 @@ class Api {
     }
   }
 
-  async tokenCheck({ jwt }) {
+  async tokenCheck() {
     const params = {
       relativePath: "/users/me",
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
     };
     const response = await this._getProxy(params);
     return await this._handleResponse(response);
@@ -61,6 +59,15 @@ class Api {
       relativePath: "/signin",
       method: "POST",
       body: JSON.stringify({ password, email }),
+    };
+    const response = await this._getProxy(params);
+    return await this._handleResponse(response);
+  }
+
+  async signOut() {
+    const params = {
+      relativePath: "/signout",
+      method: "POST",
     };
     const response = await this._getProxy(params);
     return await this._handleResponse(response);
