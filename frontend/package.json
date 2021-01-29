@@ -2,6 +2,11 @@
   "name": "react-mesto-auth",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "email": "alekseypopow1995@yandex.ru",
+    "name": "Aleksey",
+    "url": ""
+  },
   "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",

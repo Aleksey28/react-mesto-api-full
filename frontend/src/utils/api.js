@@ -61,7 +61,7 @@ class Api {
   }
 
   async toggleCardLike(id, like) {
-    const response = await this._getProxy(`/cards/likes/${id}`, like ? "PUT" : "DELETE");
+    const response = await this._getProxy(`/cards/${id}/likes`, like ? "PUT" : "DELETE");
     return await this._handleResponse(response);
   }
 
