@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 const NotFoundErr = require("../errors/not-found-err");
 const jwt = require("jsonwebtoken");
+const ConflictingRequest = require("../errors/conflicting-request");
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
@@ -49,7 +50,16 @@ const getUserInfo = (req, res, next) => {
 
 const createUser = (req, res, next) => {
   const { name, about, avatar, email, password } = req.body;
-  bcrypt.hash(password, 10)
+
+  User.findOne({
+      email,
+    })
+    .then((data) => {
+      if (data) {
+        throw new ConflictingRequest("Пользователь с таким E-mail уже существует.");
+      }
+      return bcrypt.hash(password, 10);
+    })
     .then(hash => User.create({
       name,
       about,
@@ -59,6 +69,7 @@ const createUser = (req, res, next) => {
     }))
     .then((hash) => res.send(hash))
     .catch(next);
+
 };
 
 const updateUserInfo = (req, res, next) => {
