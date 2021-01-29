@@ -19,15 +19,15 @@ const app = express();
 const whitelist = ['http://localhost:3000', 'http://localhost:3001',
   'https://mesto.aleksey.students.nomoredomains.monster'];
 const corsOptions = {
-  // origin(origin, callback) {
-  //   if (whitelist.indexOf(origin) !== -1) {
-  //     callback(null, true);
-  //   } else {
-  //     callback(new Error('Not allowed by CORS'));
-  //   }
-  // },
-  // credentials: true,
-  // optionsSuccessStatus: 200,
+  origin(origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
