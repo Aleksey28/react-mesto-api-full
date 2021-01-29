@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
@@ -13,7 +15,20 @@ const cors = require("cors");
 const { PORT = 3000 } = process.env;
 const app = express();
 
-app.use(cors());
+const whitelist = ['http://localhost:3000', 'http://localhost:3001', 'https://mesto.aleksey.students.nomoredomains.monster']
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  credentials: true,
+  optionsSuccessStatus: 200
+}
+
+app.use(cors(corsOptions));
 
 mongoose.connect("mongodb://localhost:27017/mestodb", {
   useNewUrlParser: true,

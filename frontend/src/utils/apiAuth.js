@@ -35,6 +35,7 @@ class Api {
   }
 
   async tokenCheck({ jwt }) {
+    debugger;
     const params = {
       relativePath: "/users/me",
       method: "GET",

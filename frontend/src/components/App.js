@@ -238,6 +238,7 @@ function App() {
     setIsLoading(true);
     apiAuthObject.signIn(data)
       .then((res) => {
+        debugger;
         if (res.token) {
           localStorage.setItem("jwt", res.token);
         }
