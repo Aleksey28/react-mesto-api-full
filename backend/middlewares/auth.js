@@ -3,8 +3,8 @@ const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
   //Не удалось получить куки с фронта, поэтому не сделал
-  // const jwt = req.cookies.jwt;
-  const authorization = req.headers.authorization;
+  const authorization = req.cookies.jwt;
+  // const authorization = req.headers.authorization;
   if (!authorization || !authorization.startsWith("Bearer ")) {
     throw new Unauthorized("Необходима авторизация");
   }

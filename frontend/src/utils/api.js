@@ -9,7 +9,8 @@ class Api {
   _getProxy(relativePath, method, body = "") {
     const options = {
       method,
-      headers: { ...this._headers, Authorization: `Bearer ${localStorage.getItem("jwt")}` },
+      credentials: 'include',
+      headers: this._headers,
     };
 
     if (!!body) {

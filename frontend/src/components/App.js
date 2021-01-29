@@ -45,7 +45,7 @@ function App() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [loggedIn]);
 
   //Загружаем данные пользователя
   useEffect(() => {
@@ -55,21 +55,18 @@ function App() {
         setCurrentUser(data);
       })
       .catch(console.log);
-  }, []);
+  }, [loggedIn]);
 
   //Проверяем токен в локальном хранилище
   useEffect(() => {
-    if (localStorage.getItem("jwt")) {
-      const jwt = localStorage.getItem("jwt");
-      // здесь будем проверять токен
-      apiAuthObject
-        .tokenCheck({ jwt })
-        .then((data) => {
-          setLoggedIn(true);
-          setCurrentUserEmail(data.email);
-        })
-        .catch(console.log);
-    }
+    // здесь будем проверять токен
+    apiAuthObject
+      .tokenCheck()
+      .then((data) => {
+        setLoggedIn(true);
+        setCurrentUserEmail(data.email);
+      })
+      .catch(console.log);
   }, []);
 
   useEffect(() => {
@@ -238,13 +235,6 @@ function App() {
     setIsLoading(true);
     apiAuthObject.signIn(data)
       .then((res) => {
-        debugger;
-        if (res.token) {
-          localStorage.setItem("jwt", res.token);
-        }
-        return res;
-      })
-      .then((res) => {
         setLoggedIn(true);
         setCurrentUserEmail(data.email);
       })
@@ -267,7 +257,7 @@ function App() {
   }, [infoTooltipProps]);
 
   const handleExit = () => {
-    localStorage.removeItem("jwt");
+    apiAuthObject.signOut();
     setLoggedIn(false);
     history.push("/login");
   };

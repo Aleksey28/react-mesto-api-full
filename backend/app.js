@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cards = require("./routes/cards");
 const users = require("./routes/users");
-const { createUser, login } = require("./controllers/users");
+const { createUser, login, logout } = require("./controllers/users");
 const auth = require("./middlewares/auth");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const { errors, celebrate, Joi } = require("celebrate");
@@ -15,18 +15,19 @@ const cors = require("cors");
 const { PORT = 3000 } = process.env;
 const app = express();
 
-const whitelist = ['http://localhost:3000', 'http://localhost:3001', 'https://mesto.aleksey.students.nomoredomains.monster']
+const whitelist = ["http://localhost:3000", "http://localhost:3001",
+                   "https://mesto.aleksey.students.nomoredomains.monster"];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
+      callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'))
+      callback(new Error("Not allowed by CORS"));
     }
   },
   credentials: true,
-  optionsSuccessStatus: 200
-}
+  optionsSuccessStatus: 200,
+};
 
 app.use(cors(corsOptions));
 
@@ -54,6 +55,9 @@ app.post("/signin", celebrate({
     password: Joi.string().required().min(8),
   }).unknown(true),
 }), login);
+
+app.post("/signout", logout);
+
 app.post("/signup", celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
