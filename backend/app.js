@@ -16,8 +16,14 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT = 3000 } = process.env;
 const app = express();
 
-const whitelist = ['http://localhost:3000', 'http://localhost:3001',
-  'https://mesto.aleksey.students.nomoredomains.monster'];
+const whitelist = [
+  'http://localhost:3000',
+  'https://localhost:3000',
+  'http://localhost:3001',
+  'https://localhost:3001',
+  'https://mesto.aleksey.students.nomoredomains.monster',
+  'http://mesto.aleksey.students.nomoredomains.monster',
+];
 const corsOptions = {
   origin(origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
