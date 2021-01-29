@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "`/public` — статика, полученная в результате билда фронтенд-приложения на Реакте  \r `/data` — JSON-файлы для временной эмуляции работы с базой данных  \r `/routes` — папка с файлами роутера",
   "main": "app.js",
+  "author": {
+    "email": "alekseypopow1995@yandex.ru",
+    "name": "Aleksey",
+    "url": ""
+  },
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js"
@@ -11,7 +16,6 @@
     "type": "git",
     "url": "git+https://github.com/Aleksey28/express-mesto.git"
   },
-  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Aleksey28/express-mesto/issues"
