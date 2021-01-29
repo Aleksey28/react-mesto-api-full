@@ -1,31 +1,31 @@
-const mongoose = require("mongoose");
-const isEmail = require("validator/lib/isEmail");
-const isURL = require("validator/lib/isURL");
-const Unauthorized = require("../errors/unauthorized");
-const bcrypt = require("bcrypt");
+const mongoose = require('mongoose');
+const isEmail = require('validator/lib/isEmail');
+const isURL = require('validator/lib/isURL');
+const bcrypt = require('bcrypt');
+const Unauthorized = require('../errors/unauthorized');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    default: "Жак-Ив Кусто",
+    default: 'Жак-Ив Кусто',
     required: false,
     minLength: 2,
     maxLength: 30,
   },
   about: {
     type: String,
-    default: "Исследователь",
+    default: 'Исследователь',
     required: false,
     minLength: 2,
     maxLength: 30,
   },
   avatar: {
     type: String,
-    default: "https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png",
+    default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
     required: false,
     validate: {
       validator: (v) => isURL(v),
-      message: "Не верно указан адрес.",
+      message: 'Не верно указан адрес.',
     },
   },
   email: {
@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
     validate: {
       validator: (v) => isEmail(v),
-      message: "Неверно указана почта.",
+      message: 'Неверно указана почта.',
     },
   },
   password: {
@@ -46,20 +46,20 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.statics.findUserByCredentials = function (email, password) {
-  return this.findOne({ email }).select("+password")
-    .then(user => {
+  return this.findOne({ email }).select('+password')
+    .then((user) => {
       if (!user) {
-        return Promise.reject(new Unauthorized("Неправильные почта или пароль"));
+        return Promise.reject(new Unauthorized('Неправильные почта или пароль'));
       }
 
       return bcrypt.compare(password, user.password)
-        .then(matched => {
+        .then((matched) => {
           if (!matched) {
-            return Promise.reject(new Unauthorized("Неправильные почта или пароль"));
+            return Promise.reject(new Unauthorized('Неправильные почта или пароль'));
           }
           return user;
         });
     });
 };
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model('user', userSchema);

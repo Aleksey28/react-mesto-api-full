@@ -1,22 +1,21 @@
-const bcrypt = require("bcryptjs");
-const User = require("../models/user");
-const NotFoundErr = require("../errors/not-found-err");
-const jwt = require("jsonwebtoken");
-const ConflictingRequest = require("../errors/conflicting-request");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const User = require('../models/user');
+const NotFoundErr = require('../errors/not-found-err');
+const ConflictingRequest = require('../errors/conflicting-request');
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-
       const { NODE_ENV, JWT_SECRET } = process.env;
 
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
-        { expiresIn: "7d" },
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        { expiresIn: '7d' },
       );
-      res.cookie("jwt", `Bearer ${token}`, {
+      res.cookie('jwt', `Bearer ${token}`, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
       }).send({ success: true });
@@ -25,7 +24,7 @@ const login = (req, res, next) => {
 };
 
 const logout = (req, res) => {
-  res.clearCookie("jwt").send({ success: true });
+  res.clearCookie('jwt').send({ success: true });
 };
 
 const getUsers = (req, res, next) => {
@@ -40,7 +39,7 @@ const getUser = (req, res, next) => {
   User.findById(req.params.id)
     .then((data) => {
       if (!data) {
-        throw new NotFoundErr("Нет пользователя с таким id");
+        throw new NotFoundErr('Нет пользователя с таким id');
       }
       res.send(data);
     })
@@ -51,7 +50,7 @@ const getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
     .then((data) => {
       if (!data) {
-        throw new NotFoundErr("Нет пользователя с таким id");
+        throw new NotFoundErr('Нет пользователя с таким id');
       }
       res.send(data);
     })
@@ -59,27 +58,32 @@ const getUserInfo = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
+  const {
+    name, about, avatar, email, password,
+  } = req.body;
 
   User.findOne({
-      email,
-    })
+    email,
+  })
     .then((data) => {
       if (data) {
-        throw new ConflictingRequest("Пользователь с таким E-mail уже существует.");
+        throw new ConflictingRequest('Пользователь с таким E-mail уже существует.');
       }
       return bcrypt.hash(password, 10);
     })
-    .then(hash => User.create({
+    .then((hash) => User.create({
       name,
       about,
       avatar,
       email,
       password: hash,
     }))
-    .then((hash) => res.send(hash))
+    .then((hash) => {
+      res.send({
+        name: hash.name, about: hash.about, avatar: hash.avatar, email: hash.email,
+      });
+    })
     .catch(next);
-
 };
 
 const updateUserInfo = (req, res, next) => {
@@ -94,10 +98,10 @@ const updateUserInfo = (req, res, next) => {
       new: true, // обработчик then получит на вход обновлённую запись
       runValidators: true, // данные будут валидированы перед изменением
     },
-    )
+  )
     .then((data) => {
       if (!data) {
-        throw new NotFoundErr("Нет пользователя с таким id");
+        throw new NotFoundErr('Нет пользователя с таким id');
       }
       res.send(data);
     })
@@ -113,10 +117,10 @@ const updateUserAvatar = (req, res, next) => {
       new: true, // обработчик then получит на вход обновлённую запись
       runValidators: true, // данные будут валидированы перед изменением
     },
-    )
+  )
     .then((data) => {
       if (!data) {
-        throw new NotFoundErr("Нет пользователя с таким id");
+        throw new NotFoundErr('Нет пользователя с таким id');
       }
       res.send(data);
     })

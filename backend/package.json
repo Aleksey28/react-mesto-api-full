@@ -1,8 +1,13 @@
 {
   "name": "express-mesto",
   "version": "1.0.0",
-  "description": "`/public` — статика, полученная в результате билда фронтенд-приложения на Реакте  \r `/data` — JSON-файлы для временной эмуляции работы с базой данных  \r `/routes` — папка с файлами роутера",
+  "description": "`/models` — папка со схемами и моделями БД \n`/routes` — папка с файлами роутера \n `/controllers` — папка с обработчиками запросов \n `/middlewares` — папка с промежуточными обработчиками \r `/errors` — папка с расширенными ошибками  \n `/utils` — вспомогательные функции и константы",
   "main": "app.js",
+  "author": {
+    "email": "alekseypopow1995@yandex.ru",
+    "name": "Aleksey",
+    "url": ""
+  },
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js"
@@ -11,7 +16,6 @@
     "type": "git",
     "url": "git+https://github.com/Aleksey28/express-mesto.git"
   },
-  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Aleksey28/express-mesto/issues"
